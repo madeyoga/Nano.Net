@@ -27,7 +27,6 @@ namespace NewDiscordBot.Services
             _client.MessageReceived += MessageReceivedAsync;
         }
 
-
         public async Task InitializeAsync()
         {
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);

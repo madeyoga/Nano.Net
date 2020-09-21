@@ -15,7 +15,6 @@ namespace NewDiscordBot
 {
     class Program
     {
-
         private DiscordSocketClient _client;
 
         // Discord.Net heavily utilizes TAP for async, so we create
@@ -80,8 +79,8 @@ namespace NewDiscordBot
                 .AddSingleton<CommandHandlingService>()
                 .AddSingleton<HttpClient>()
                 .AddSingleton<PictureService>()
+                .AddSingleton<YoutubeService>()
                 .BuildServiceProvider();
         }
-
     }
 }
