@@ -19,6 +19,10 @@ namespace NewDiscordBot.Modules
         public Task PingAsync()
             => ReplyAsync("pong!");
 
+        [Command("echo")]
+        public Task EchoAsync([Remainder] string text)
+            =>ReplyAsync(text);
+
         // Get info on a user, or the user who invoked the command if one is not specified
         [Command("userinfo")]
         public async Task UserInfoAsync(IUser user = null)
@@ -59,7 +63,6 @@ namespace NewDiscordBot.Modules
 
             var selectedPost = posts[randomIndex];
             Console.WriteLine(selectedPost);
-            Console.WriteLine(selectedPost.GetType());
         }
     }
 }
