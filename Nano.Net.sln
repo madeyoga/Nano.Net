@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewDiscordBot", "NewDiscordBot\NewDiscordBot.csproj", "{8F8C42D8-B581-485E-B90F-AFEDDD1F97FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nano.Net", "Nano.Net\Nano.Net.csproj", "{8F8C42D8-B581-485E-B90F-AFEDDD1F97FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

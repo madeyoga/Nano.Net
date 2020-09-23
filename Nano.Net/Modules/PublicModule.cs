@@ -1,13 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
-using NewDiscordBot.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
+using Nano.Net.Services;
 
-namespace NewDiscordBot.Modules
+namespace Nano.Net.Modules
 {
     // Modules must be public and inherit from an IModuleBase
     public class PublicModule : ModuleBase<SocketCommandContext>
@@ -47,22 +46,6 @@ namespace NewDiscordBot.Modules
         {
             Dictionary<String, String> responseDictionary = await PictureService.GetDogUrlAsync();
             await ReplyAsync(responseDictionary["message"]);
-        }
-
-        [Command("r")]
-        public async Task SearchAsync(String query)
-        {
-            // VERYCOOL, DOESN'T WORK.
-            Console.WriteLine(query);
-            await Context.Channel.SendMessageAsync(query);
-
-            var posts = await Task.Run(() => PictureService.GetPicture(query: query));
-
-            var random = new Random();
-            int randomIndex = random.Next(posts.Count);
-
-            var selectedPost = posts[randomIndex];
-            Console.WriteLine(selectedPost);
         }
     }
 }

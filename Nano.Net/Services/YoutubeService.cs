@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using YoutubeSearchAPI;
 
-namespace NewDiscordBot.Services
+namespace Nano.Net.Services
 {
     public class YoutubeService
     {

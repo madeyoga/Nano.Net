@@ -6,7 +6,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace NewDiscordBot.Services
+namespace Nano.Net.Services
 {
     internal class CommandHandlingService
     {

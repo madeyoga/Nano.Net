@@ -1,23 +1,26 @@
 ﻿using Discord.Commands;
-using NewDiscordBot.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using Discord.Audio;
+using Nano.Net.Services;
 
-namespace NewDiscordBot.Modules
+namespace Nano.Net.Modules
 {
-    public class MusicModule : ModuleBase<SocketCommandContext>
+    public class AudioModule : ModuleBase<SocketCommandContext>
     {
         public YoutubeService YoutubeService { get; set; }
-        
-        public MusicModule()
+
+        private IAudioClient client;
+
+        public AudioModule(IAudioClient client)
         {
 
         }
 
         [Command("search")]
-        public async Task SearchYoutubeVideo([Remainder] string query)
+        [Alias("s")]
+        public async Task SearchYoutubeVideoAsync([Remainder] string query)
         {
             dynamic data = await YoutubeService.SearchVideosByQuery(query);
 
@@ -34,6 +37,12 @@ namespace NewDiscordBot.Modules
             string reply = string.Join("\n", videoTitles);
 
             await Context.Channel.SendMessageAsync(reply);
+        }
+
+        [Command("play")]
+        public async Task PlayAsync([Remainder] string query)
+        {
+            await SendAsync();
         }
     }
 }

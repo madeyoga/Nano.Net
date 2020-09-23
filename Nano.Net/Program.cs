@@ -9,9 +9,9 @@ using Discord.WebSocket;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using NewDiscordBot.Services;
+using Nano.Net.Services;
 
-namespace NewDiscordBot
+namespace Nano.Net
 {
     class Program
     {
@@ -38,7 +38,7 @@ namespace NewDiscordBot
             using (var services = ConfigureServices())
             {
                 var client = services.GetRequiredService<DiscordSocketClient>();
-                
+
                 _client = client;
 
                 client.Ready += ReadyAsync;
@@ -67,7 +67,6 @@ namespace NewDiscordBot
         private Task ReadyAsync()
         {
             Console.WriteLine($"Logged in as {_client.CurrentUser}");
-
             return Task.CompletedTask;
         }
 
