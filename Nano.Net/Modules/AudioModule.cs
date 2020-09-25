@@ -48,6 +48,7 @@ namespace Nano.Net.Modules
         public async Task PlayAsync([Remainder] string query)
         {
             await audioService.SendAudioAsync(Context.Guild, query);
+            await ReplyAsync("Now playing");
         }
 
         [Command("join", RunMode = RunMode.Async)]
@@ -70,6 +71,22 @@ namespace Nano.Net.Modules
         public async Task StopAsync()
         {
             await audioService.LeaveChannel(Context);
+        }
+
+        [Command("pause", RunMode = RunMode.Async)]
+        public async Task PauseAsync()
+        {
+            audioService.PauseState = true;
+            Console.WriteLine(audioService.PauseState);
+            await ReplyAsync("Pause Audio");
+        }
+
+        [Command("resume", RunMode = RunMode.Async)]
+        public async Task ResumeAsync()
+        {
+            audioService.PauseState = false;
+            Console.WriteLine(audioService.PauseState);
+            await ReplyAsync("Resume Audio");
         }
     }
 }

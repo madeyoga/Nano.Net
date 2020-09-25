@@ -15,6 +15,7 @@ namespace Nano.Net.Services
     public class AudioService
     {
         private readonly ConcurrentDictionary<ulong, IAudioClient> _audioClients = new ConcurrentDictionary<ulong, IAudioClient>();
+        public bool PauseState = false;
 
         public async Task JoinChannel(IVoiceChannel channel, ulong guildID)
         {
@@ -49,15 +50,18 @@ namespace Nano.Net.Services
             {
                 FileName = "youtube-dl.exe",
                 Arguments = $"--format bestaudio -o Data/Music/{guild.Id}.mp3 {youtubeVideoUrl}",
-                RedirectStandardOutput = true
+                RedirectStandardOutput = true,
+                CreateNoWindow = true
             });
+            ytdlProcess.WaitForExit();
 
             Process ffmpegProcess = Process.Start(new ProcessStartInfo
             {
                 FileName = "ffmpeg.exe",
                 Arguments = $"-i Data/Music/{guild.Id}.mp3 -ac 2 -f s16le -ar 48000 pipe:1",
                 UseShellExecute = false,
-                RedirectStandardOutput = true
+                RedirectStandardOutput = true,
+                CreateNoWindow = true
             });
 
             return ffmpegProcess;
@@ -67,25 +71,39 @@ namespace Nano.Net.Services
         {
             if (_audioClients.TryGetValue(guild.Id, out IAudioClient client))
             {
-                using (Stream output = CreateStream(url, guild).StandardOutput.BaseStream)
-                using (AudioOutStream stream = client.CreatePCMStream(AudioApplication.Music))
+                using (Process ffmpegProcess = CreateStream(url, guild))
+                using (Stream ffmpegOutput = ffmpegProcess.StandardOutput.BaseStream)
+                using (AudioOutStream clientStream = client.CreatePCMStream(AudioApplication.Music))
                 {
                     try
                     {
-                        await output.CopyToAsync(stream);
+                        await ffmpegOutput.CopyToAsync(clientStream);
+                        //var buffer = new byte[3816];
+                        //var br = await ffmpegOutput.ReadAsync(buffer, 0, buffer.Length);
+
+                        //while ((br = await ffmpegOutput.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                        //{
+                        //    while (PauseState == true)
+                        //    {
+                        //        await Task.Delay(2000);
+                        //    }
+
+                        //    await clientStream.WriteAsync(buffer);
+                        //}
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine(e.Message + " Stopped audio stream");
+                        //File.Delete($"Data/Music/{guild.Id}.mp3");
                     }
                     finally
                     {
-                        await stream.FlushAsync();
+                        await clientStream.FlushAsync();
+                        //Console.WriteLine($"Deleted Data/Music/{guild.Id}.mp3");
+                        //File.Delete($"Data/Music/{guild.Id}.mp3");
                     }
                 }
             }
         }
-
     }
-
 }
