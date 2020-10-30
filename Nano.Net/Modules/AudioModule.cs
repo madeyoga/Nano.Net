@@ -8,8 +8,6 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 
-using System.Threading.Tasks;
-
 namespace Nano.Net.Modules
 {
     public class AudioModule : ModuleBase<SocketCommandContext>
@@ -44,10 +42,10 @@ namespace Nano.Net.Modules
             await Context.Channel.SendMessageAsync(reply);
         }
 
-        [Command("play")]
+        [Command("play", RunMode = RunMode.Async)]
         public async Task PlayAsync([Remainder] string query)
         {
-            await audioService.SendAudioAsync(Context.Guild, query);
+            await audioService.loadAndPlay(query);
         }
 
         [Command("join", RunMode = RunMode.Async)]
@@ -70,6 +68,27 @@ namespace Nano.Net.Modules
         public async Task StopAsync()
         {
             await audioService.LeaveChannel(Context);
+        }
+
+        [Command("pause", RunMode = RunMode.Async)]
+        public async Task PauseAsync()
+        {
+            audioService.Player.Pause();
+            await ReplyAsync("Pause!");
+        }
+
+        [Command("resume", RunMode = RunMode.Async)]
+        public async Task ResumeAsync()
+        {
+            audioService.Player.Resume();
+            await ReplyAsync("Resume!");
+        }
+
+        [Command("volume", RunMode = RunMode.Async)]
+        public async Task VolumeAsync([Remainder] string volumeNumber)
+        {
+            audioService.Player.SetVolume(double.Parse(volumeNumber) / 100);
+            await ReplyAsync("Volume changed to " + volumeNumber + "!");
         }
     }
 }

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
-using YoutubeSearchAPI;
+using YoutubeSearchApi.Net;
 
 namespace Nano.Net.Services
 {
     public class YoutubeService
     {
-        private YoutubeSearchClient ytsClient;
+        private YoutubeApiV3Client ytsClient;
 
         public YoutubeService()
         {
-            ytsClient = new YoutubeSearchClient(Environment.GetEnvironmentVariable("DEVELOPER_KEY"));
+            ytsClient = new YoutubeApiV3Client(Environment.GetEnvironmentVariable("DEVELOPER_KEY"));
         }
 
         public async Task <dynamic> SearchVideosByQuery(string query)

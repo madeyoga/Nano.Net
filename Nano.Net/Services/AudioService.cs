@@ -2,6 +2,8 @@
 using Discord.Audio;
 using Discord.Commands;
 using Discord.WebSocket;
+using Discord.Addons.Music.Core;
+using Discord.Addons.Music.Common;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -15,11 +17,21 @@ namespace Nano.Net.Services
     public class AudioService
     {
         private readonly ConcurrentDictionary<ulong, IAudioClient> _audioClients = new ConcurrentDictionary<ulong, IAudioClient>();
+        public AudioPlayer Player { get; set; }
 
-        public async Task JoinChannel(IVoiceChannel channel, ulong guildID)
+        public AudioService()
         {
+        }
+
+        public async Task JoinChannel(IVoiceChannel channel, ulong guildId)
+        {
+
             var audioClient = await channel.ConnectAsync();
-            _audioClients.TryAdd(guildID, audioClient);
+            _audioClients.TryAdd(guildId, audioClient);
+
+            Player = new AudioPlayer(guildId);
+            Player.RegisterEventAdapter(new TrackScheduler());
+            Player.SetAudioClient(audioClient);
         }
 
         public async Task LeaveChannel(SocketCommandContext Context)
@@ -42,50 +54,11 @@ namespace Nano.Net.Services
             }
         }
 
-        public Process CreateStream(string youtubeVideoUrl, SocketGuild guild)
+        public async Task loadAndPlay(string url)
         {
-            // Stream song
-            Process ytdlProcess = Process.Start(new ProcessStartInfo
-            {
-                FileName = "youtube-dl.exe",
-                Arguments = $"--format bestaudio -o Data/Music/{guild.Id}.mp3 {youtubeVideoUrl}",
-                RedirectStandardOutput = true
-            });
-
-            Process ffmpegProcess = Process.Start(new ProcessStartInfo
-            {
-                FileName = "ffmpeg.exe",
-                Arguments = $"-i Data/Music/{guild.Id}.mp3 -ac 2 -f s16le -ar 48000 pipe:1",
-                UseShellExecute = false,
-                RedirectStandardOutput = true
-            });
-
-            return ffmpegProcess;
+            AudioTrack track = await TrackLoader.LoadYoutubeTrack(url);
+            Player.PlayingTrack = track;
+            await Player.StartTrack();
         }
-
-        public async Task SendAudioAsync(SocketGuild guild, string url)
-        {
-            if (_audioClients.TryGetValue(guild.Id, out IAudioClient client))
-            {
-                using (Stream output = CreateStream(url, guild).StandardOutput.BaseStream)
-                using (AudioOutStream stream = client.CreatePCMStream(AudioApplication.Music))
-                {
-                    try
-                    {
-                        await output.CopyToAsync(stream);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message + " Stopped audio stream");
-                    }
-                    finally
-                    {
-                        await stream.FlushAsync();
-                    }
-                }
-            }
-        }
-
     }
-
 }

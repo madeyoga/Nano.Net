@@ -78,6 +78,7 @@ namespace Nano.Net
                 .AddSingleton<CommandHandlingService>()
                 .AddSingleton<HttpClient>()
                 .AddSingleton<PictureService>()
+                .AddSingleton<AudioService>()
                 .AddSingleton<YoutubeService>()
                 .BuildServiceProvider();
         }
