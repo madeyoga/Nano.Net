@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nano.Net", "Nano.Net\Nano.Net.csproj", "{8F8C42D8-B581-485E-B90F-AFEDDD1F97FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discord.Addons.Music", "Discord.Addons.Music\Discord.Addons.Music.csproj", "{D8A639DE-2B4C-4264-BF52-66039B14353D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{8F8C42D8-B581-485E-B90F-AFEDDD1F97FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F8C42D8-B581-485E-B90F-AFEDDD1F97FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F8C42D8-B581-485E-B90F-AFEDDD1F97FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D8A639DE-2B4C-4264-BF52-66039B14353D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D8A639DE-2B4C-4264-BF52-66039B14353D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D8A639DE-2B4C-4264-BF52-66039B14353D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D8A639DE-2B4C-4264-BF52-66039B14353D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

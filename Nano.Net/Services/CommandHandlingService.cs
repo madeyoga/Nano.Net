@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
+using Nano.Net.Modules;
 
 namespace Nano.Net.Services
 {
@@ -29,7 +29,8 @@ namespace Nano.Net.Services
 
         public async Task InitializeAsync()
         {
-            await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
+            //await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
+            await _commands.AddModuleAsync<AudioCommandModule>(_services);
         }
 
         public async Task MessageReceivedAsync(SocketMessage rawMessage)
@@ -43,7 +44,7 @@ namespace Nano.Net.Services
             // Perform prefix check. You may want to replace this with
             // (!message.HasCharPrefix('!', ref argPos))
             // for a more traditional command format like !help.
-            if (!message.HasStringPrefix(".!", ref argPos)) return;
+            if (!message.HasStringPrefix(".", ref argPos)) return;
 
             var context = new SocketCommandContext(_client, message);
             // Perform the execution of the command. In this method,
