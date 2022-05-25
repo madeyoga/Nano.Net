@@ -17,7 +17,7 @@
     <PackageReference Include="Discord.Addons.Music" Version="0.2.1" />
     <PackageReference Include="Discord.Net" Version="2.4.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="YoutubeSearchApi.Net" Version="1.1.0" />
+    <PackageReference Include="YoutubeSearchApi.Net" Version="1.1.1" />
   </ItemGroup>
 
 </Project>
